@@ -3,39 +3,33 @@ using DemoShop.Store.ProductList;
 using Microsoft.AspNetCore.Components;
 using Fluxor;
 using CartState = DemoShop.Store.ShoppingCart.State;
+using DemoShop.Components;
 
 namespace DemoShop.Pages
 {
-    public partial class ProductView : FluxorComponent
+    public partial class ProductView : RenderNotifyingComponent
     {
         [Inject]
         public IDispatcher Dispatcher { get; set; }
 
         [Inject]
-        public IStateSelection<State, Product> Product { get; set; }
+        public IState<State> State { get; set; }
 
         [Inject]
-        public IStateSelection<CartState, int> TotalProductsInCart { get; set; }
+        public IState<CartState> CartState { get; set; }
 
         [Parameter]
         public int ProductId { get; set; }
 
-        protected override void OnInitialized()
-        {
-            base.OnInitialized();
+        public Product Product => State.Value.Products.Find(x => x.Id == ProductId) ?? new();
 
-            Product.Select(x => x.Products.First(x => x.Id == ProductId));
-            TotalProductsInCart
-                .Select(x => 
-                    x.ProductTotals.TryGetValue(
-                        Product.Value, 
-                        out var productTotals) ? productTotals : 0);
-        }
+        public int TotalProductsInCart => CartState.Value.ProductTotals.TryGetValue(Product, out var productTotals)
+            ? productTotals : 0;
 
         protected void AddProduct()
-            => Dispatcher.Dispatch(new Store.ShoppingCart.Actions.AddProduct(Product.Value));
+            => Dispatcher.Dispatch(new Store.ShoppingCart.Actions.AddProduct(Product));
 
         protected void RemoveProduct()
-            => Dispatcher.Dispatch(new Store.ShoppingCart.Actions.RemoveProduct(Product.Value));
+            => Dispatcher.Dispatch(new Store.ShoppingCart.Actions.RemoveProduct(Product));
     }
 }
