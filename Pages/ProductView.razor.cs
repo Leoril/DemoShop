@@ -7,7 +7,7 @@ using DemoShop.Components;
 
 namespace DemoShop.Pages
 {
-    public partial class ProductView : RenderNotifyingComponent
+    public partial class ProductView : FluxorComponent
     {
         [Inject]
         public IDispatcher Dispatcher { get; set; }
