@@ -12,18 +12,29 @@ namespace DemoShop.Pages
         public IDispatcher Dispatcher { get; set; }
 
         [Inject]
-        public IState<State> State { get; set; }
+        public IStateSelection<State, Product> ProductSlice { get; set; }
 
         [Inject]
-        public IState<CartState> CartState { get; set; }
+        public IStateSelection<CartState, int> TotalProductsInCartSlice { get; set; }
 
         [Parameter]
         public int ProductId { get; set; }
 
-        public Product Product => State.Value.Products.Find(x => x.Id == ProductId) ?? new();
+        public Product Product => ProductSlice.Value;
 
-        public int TotalProductsInCart => CartState.Value.ProductTotals.TryGetValue(Product, out var productTotals)
-            ? productTotals : 0;
+        public int TotalProductsInCart => TotalProductsInCartSlice.Value;
+
+        protected override void OnInitialized()
+        {
+            base.OnInitialized();
+
+            ProductSlice.Select(x => x.Products.First(x => x.Id == ProductId));
+            TotalProductsInCartSlice
+                .Select(x =>
+                    x.ProductTotals.TryGetValue(
+                        ProductSlice.Value,
+                        out var productTotals) ? productTotals : 0);
+        }
 
         protected void AddProduct()
             => Dispatcher.Dispatch(new Store.ShoppingCart.Actions.AddProduct(Product));
