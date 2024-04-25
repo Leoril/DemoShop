@@ -1,0 +1,32 @@
+﻿@page "/product/{ProductId:int}"
+@using Fluxor.Blazor.Web.Components
+@inherits FluxorComponent
+
+<RadzenText TextStyle="TextStyle.H3">Product Details</RadzenText>
+
+<RadzenRow>
+    <RadzenColumn Size="4" class="rz-text-align-center">
+        <RadzenImage Path="@Product.Value.Image" Style="max-width: 150px;" />
+    </RadzenColumn>
+    <RadzenColumn Size="8">
+        <RadzenText TextStyle="TextStyle.H5">@Product.Value.Title</RadzenText>
+        <RadzenText TextStyle="TextStyle.Subtitle1">@Product.Value.Description</RadzenText>
+        <br />
+        <RadzenText TextStyle="TextStyle.Subtitle2"><b>@String.Format(new System.Globalization.CultureInfo("en-AT"), "{0:C}", Product.Value.Price)</b></RadzenText>
+        <RadzenRating Value="@Product.Value.Rating.IntegerRate" ReadOnly=true />
+    </RadzenColumn>
+</RadzenRow>
+<RadzenColumn Size="12">
+    <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.Center" Gap="3rem" Wrap="FlexWrap.Wrap" class="rz-p-12">
+        @if (TotalProductsInCart.Value < 1)
+        {
+            <RadzenButton Text="Add to cart" Click="AddProduct" ButtonStyle="ButtonStyle.Primary" Size="ButtonSize.Medium" class="rz-border-radius-10 rz-shadow-4" />
+        }
+        else
+        {
+            <RadzenButton Click=RemoveProduct Icon="remove" ButtonStyle="ButtonStyle.Primary" Size="ButtonSize.ExtraSmall" class="rz-border-radius-10 rz-shadow-4" />
+            <RadzenText>@TotalProductsInCart.Value</RadzenText>
+            <RadzenButton Click=AddProduct Icon="add" ButtonStyle="ButtonStyle.Primary" Size="ButtonSize.ExtraSmall" class="rz-border-radius-10 rz-shadow-4" />
+        }
+    </RadzenStack>
+</RadzenColumn>

@@ -1,0 +1,11 @@
+﻿@inject IState<DemoShop.Store.ShoppingCart.State> State
+@using Fluxor
+@using Fluxor.Blazor.Web.Components
+@using Radzen.Blazor
+@inherits FluxorComponent
+
+<RadzenButton ButtonStyle="ButtonStyle.Primary" Shade="Shade.Lighter" Click=ShowSummary class="rz-shadow-0">
+	<RadzenIcon Icon="shopping_cart" />
+	Cart
+	<RadzenBadge BadgeStyle="BadgeStyle.Secondary" IsPill="@true" Text="@State.Value.TotalCount.ToString()" class="rz-ml-2" />
+</RadzenButton>

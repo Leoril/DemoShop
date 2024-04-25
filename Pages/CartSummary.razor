@@ -1,0 +1,33 @@
+﻿@using Radzen.Blazor
+@inherits FluxorComponent
+
+<RadzenText TextStyle="TextStyle.DisplayH6">Your Cart (@CartState.Value.TotalCount)</RadzenText>
+<RadzenDataList Data=CartState.Value.ProductTotals AllowVirtualization=@true>
+    <Template Context="product">
+        <RadzenStack Orientation="Orientation.Vertical" AlignItems="AlignItems.Center" Wrap="FlexWrap.Wrap">
+            <RadzenRow Gap="0">
+                <RadzenColumn Size="3">
+                    <RadzenImage Path="@product.Key.Image" Style="max-width: 50px" />
+                </RadzenColumn>
+                <RadzenColumn Size="8">
+                    <RadzenStack Orientation="Orientation.Vertical">
+                        <RadzenLink Path=@($"/product/{product.Key.Id}") Text="@product.Key.Title.Truncate(25)" />
+                        <RadzenText TextStyle="TextStyle.Subtitle2">@product.Key.Description.Truncate(50)</RadzenText>
+                        <RadzenText TextStyle="TextStyle.Subtitle2">Quantity: @product.Value</RadzenText>
+                    </RadzenStack>
+                </RadzenColumn>
+                <RadzenColumn Size="1">
+                    <RadzenStack Orientation="Orientation.Vertical" AlignItems="AlignItems.Center" Wrap="FlexWrap.Wrap">
+                        <RadzenButton Size="ButtonSize.ExtraSmall" Icon="delete" Click="() => RemoveProduct(product)" ButtonStyle="ButtonStyle.Light" />
+                    </RadzenStack>
+                </RadzenColumn>
+            </RadzenRow>
+        </RadzenStack>
+    </Template>
+</RadzenDataList>
+<RadzenStack class="p-0" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.Center" Orientation="Orientation.Horizontal" Wrap="FlexWrap.Wrap">
+    <RadzenButton Text="Checkout">
+        Checkout
+        <RadzenBadge BadgeStyle="BadgeStyle.Secondary" IsPill=@true Text=@($"{String.Format(new System.Globalization.CultureInfo("en-AT"), "{0:C}", CartState.Value.TotalPrice)}") />
+    </RadzenButton>
+</RadzenStack>

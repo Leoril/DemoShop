@@ -1,0 +1,29 @@
+﻿@page "/products"
+@inherits FluxorComponent
+@using DemoShop.Models
+@using Fluxor.Blazor.Web.Components
+
+<RadzenText TextStyle="TextStyle.H3">Products List</RadzenText>
+
+<RadzenDataList Data="State.Value.Products" WrapItems="true" TItem="Product" PageSize="20" IsLoading="State.Value.IsLoading">
+    <Template Context="product">
+        <RadzenCard Style="width:300px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+            <RadzenStack Orientation="Orientation.Vertical" JustifyContent="JustifyContent.Center" AlignItems="AlignItems.Center">
+                <RadzenText TextStyle="TextStyle.Body2"><b>@product.Title.Truncate(40)</b></RadzenText>
+                <RadzenStack Orientation="Orientation.Horizontal">
+                    <RadzenImage Path="@product.Image" Style="max-width:100px; border-radius: 5px;" />
+                    <RadzenStack Orientation="Orientation.Vertical" Gap="0" JustifyContent="JustifyContent.Center">
+                        <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Center">
+                            <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" Class="rz-mb-0">Price:</RadzenText>
+                            <RadzenBadge BadgeStyle="BadgeStyle.Secondary" Shade="Shade.Lighter" class="price-badge" Text=@($"{String.Format(new System.Globalization.CultureInfo("en-AT"), "{0:C}", product.Price)}") />
+                        </RadzenStack>
+                        <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Center">
+                            <RadzenButton ButtonStyle="ButtonStyle.Secondary" Text="View" Click="() => NavigateToProduct(product.Id)" Style="margin-right: 8px;" />
+                            <RadzenButton ButtonStyle="ButtonStyle.Primary" Text="Buy" Click="() => AddProduct(product)" />
+                        </RadzenStack>
+                    </RadzenStack>
+                </RadzenStack>
+            </RadzenStack>
+        </RadzenCard>
+    </Template>
+</RadzenDataList>
