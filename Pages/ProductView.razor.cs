@@ -3,7 +3,6 @@ using DemoShop.Store.ProductList;
 using Microsoft.AspNetCore.Components;
 using Fluxor;
 using CartState = DemoShop.Store.ShoppingCart.State;
-using DemoShop.Components;
 
 namespace DemoShop.Pages
 {

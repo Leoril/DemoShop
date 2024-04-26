@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Radzen;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
+
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
@@ -17,7 +18,10 @@ builder.Services.AddRadzenComponents();
 builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
 builder.Services.ConfigureFluxor();
+
+var fakeStoreApiUrl = builder.Configuration.GetSection("FakeStoreApi:Url").Value;
+
 builder.Services.AddRefitClient<IFakeStoreApi>()
-    .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://fakestoreapi.com"));
+    .ConfigureHttpClient(c => c.BaseAddress = new Uri(fakeStoreApiUrl));
 
 await builder.Build().RunAsync();

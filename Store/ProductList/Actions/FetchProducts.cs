@@ -1,8 +1,7 @@
 ﻿namespace DemoShop.Store.ProductList.Actions
 {
-#pragma warning disable S2094 // Classes should not be empty
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Code Smell", "S2094:Classes should not be empty", Justification = "<Pending>")]
     public class FetchProducts
-#pragma warning restore S2094 // Classes should not be empty
     {
     }
 }
