@@ -4,7 +4,7 @@
 @using Radzen.Blazor
 @inherits FluxorComponent
 
-<RadzenButton ButtonStyle="ButtonStyle.Primary" Shade="Shade.Lighter" Click=ShowSummary class="rz-shadow-0">
+<RadzenButton ButtonStyle="ButtonStyle.Danger" Shade="Shade.Darker" Click=ShowSummary class="rz-shadow-0" Style="right: 30px;">
 	<RadzenIcon Icon="shopping_cart" />
 	Cart
 	<RadzenBadge BadgeStyle="BadgeStyle.Secondary" IsPill="@true" Text="@State.Value.TotalCount.ToString()" class="rz-ml-2" />
